@@ -1,26 +1,21 @@
 package net.javaguides.springboot.model;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Random;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "employees")
-public class Employee {
-	Random random = new Random();
-	
+@Table(name = "employees",uniqueConstraints={@UniqueConstraint(columnNames={"codigo"})})
+public class Employee {	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name = "codigo")
+	@Column(unique=true, name = "codigo")
 	private long codigo;
 	
 	@Column(name = "first_name")
@@ -32,32 +27,16 @@ public class Employee {
 	@Column(name = "email")
 	private String email;
 	
-	@Override
-	public int hashCode() {
-		return Objects.hash(codigo);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Employee)) {
-			return false;
-		}
-		Employee other = (Employee) obj;
-		return codigo == other.codigo;
-	}
-	
 	public Employee() {
 		super();
 	}
 
-	public Employee(String firstName, String lastName, String email) {
+	public Employee(String firstName, String lastName, String email,long codigo) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.codigo = codigo;
 	}
 	
 	public long getId() {
